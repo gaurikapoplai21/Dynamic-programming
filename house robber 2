@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) 
+    {   if(nums.size()==0)
+    {
+        return 0;
+    }
+     if(nums.size()==1)
+     {
+         return nums[0];
+     }
+        vector<int> v1(nums.size());
+        vector<int> v2(nums.size());
+        v1[0] = 0;
+        v1[1] = nums[0];
+        v2[0] = 0;
+        v2[1] = nums[1];
+        for(int i=2;i<nums.size();i++)
+        {
+            v1[i] = max(v1[i-1] , v1[i-2] + nums[i-1]);
+            cout<<v1[i]<<" ";
+        }
+        cout<<endl;
+        //nums.erase(nums.begin());
+        for(int i=2;i<nums.size();i++)
+        {
+            v2[i] = max(v2[i-1],v2[i-2]+nums[i]);
+            cout<<v2[i]<<" ";
+        }
+        return max(v1[nums.size()-1],v2[nums.size()-1]);
+    }
+};
