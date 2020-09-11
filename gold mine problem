@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long int lli;
+
+int main()
+{
+    int t;
+    cin >> t;
+
+    while (t--)
+    {
+        int r, c;
+        cin >> r >> c;
+        int x;
+        vector<vector<int>> mat;
+        for (int i = 0; i < r; i++)
+        {
+            vector<int> v;
+            for (int j = 0; j < c; j++)
+            {
+                cin >> x;
+                v.push_back(x);
+            }
+            mat.push_back(v);
+        }
+        //bottom up
+        //each box in dp table represents max gold from that cell to end
+        int maxe = 0;
+        vector<vector<int>> dp(r, vector<int>(c));
+        for (int i = c - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < r; j++)
+            {
+                int right = (i == c - 1) ? 0 : dp[j][i + 1];
+                int up = (i == c - 1 || j == 0) ? 0 : dp[j - 1][i + 1];
+                int down = (i == c - 1 || j == r - 1) ? 0 : dp[j + 1][i + 1];
+                dp[j][i] = mat[j][i] + max(right, max(up, down));
+                if (i == 0)
+                {
+                    maxe = max(maxe, dp[j][i]);
+                }
+            }
+        }
+        /*for (int i = 0; i < r; i++)
+        {
+            for (int j = 0; j < c; j++)
+            {
+                cout << dp[i][j] << " ";
+            }
+            cout << "\n";
+        }*/
+        cout << maxe << "\n";
+    }
+}
